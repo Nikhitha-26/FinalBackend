@@ -34,7 +34,7 @@ app = FastAPI(title="Project Marketplace API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000",
-                   "https://uniprojecthub.vercel.app/"],
+                   "https://uniprojecthub.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
