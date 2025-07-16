@@ -15,6 +15,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 
+from fastapi.responses import JSONResponse
+from fastapi.requests import Request
+
 from auth import get_current_user, create_user, authenticate_user
 from auth import router as auth_router
 from ai_ollama import get_project_suggestions, improve_idea, chat_with_ollama, get_relevant_websites
@@ -36,7 +39,7 @@ app.add_middleware(
     allow_origins=["http://localhost:3000",
                    "https://uniprojecthub.vercel.app"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -72,6 +75,12 @@ async def register(user: UserCreate):
         return {"message": "User created successfully", "user": result}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.options("/{rest_of_path:path}")
+async def preflight_handler(request: Request, rest_of_path: str):
+    return JSONResponse(status_code=200, content={"message": "Preflight OK"})
+
 
 @app.post("/api/auth/login")
 async def login(user: UserLogin):
