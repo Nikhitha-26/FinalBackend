@@ -73,7 +73,7 @@ async def add_sample_projects():
     ]
     
     try:
-        supabase.table("projects").insert(sample_projects).execute()
+        supabase.table("projects_data").insert(sample_projects).execute()
         print("Sample projects added successfully")
     except Exception as e:
         print(f"Error adding sample projects: {e}")
